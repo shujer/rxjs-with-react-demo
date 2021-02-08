@@ -1,13 +1,14 @@
 import { BehaviorSubject, combineLatest, from } from "rxjs";
-import { filter, map, scan, switchMap, tap } from "rxjs/operators";
+import { concatMap, tap } from "rxjs/operators";
 
 export interface TodoItem {
   id: number;
   name: string;
   done: boolean;
 }
-
+let count = 0;
 const requestList = (limit: number = 10): Promise<TodoItem[]> => {
+  console.log("request", count++, new Date().getTime());
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(
@@ -19,41 +20,39 @@ const requestList = (limit: number = 10): Promise<TodoItem[]> => {
             done: Math.random() > 0.5 ? true : false,
           }))
       );
-    }, 1000);
+    }, 2000);
   });
 };
 
 class TodoService {
-  private search$ = new BehaviorSubject<{ [x: string]: any }>({});
+  private action$ = new BehaviorSubject<
+    { type: string; playload: any } | undefined
+  >(undefined);
   private page$ = new BehaviorSubject<{ limit: number; offset: number }>({
     limit: 10,
     offset: 0,
   });
   private refresh$ = new BehaviorSubject<number>(0);
-  private loadingSource$ = new BehaviorSubject<number>(0);
-  public loading$ = this.loadingSource$.pipe(
-    scan((acc, cur) => acc + cur, 0),
-    map((count) => !!count)
-  );
+  private loadingSource$ = new BehaviorSubject<boolean>(false);
+  public loading$ = this.loadingSource$.asObservable();
   public todoList$ = combineLatest(
-    this.search$,
     this.page$,
+    this.action$,
     this.refresh$
   ).pipe(
-    filter(([action]) => !!action),
     tap(() => {
-      this.loadingSource$.next(-1);
+      this.loadingSource$.next(true);
     }),
-    switchMap(([search, page, refresh]) => {
+    concatMap(([page]) => {
       return from(requestList(page.limit));
     }),
-    tap(() => {
-      this.loadingSource$.next(1);
+    tap((res) => {
+      this.loadingSource$.next(false);
     })
   );
 
-  search(params: { [x: string]: any }) {
-    this.search$.next(params);
+  search(params: { type: string; playload: any }) {
+    this.action$.next(params);
   }
   change(params: { limit: number; offset: number }) {
     this.page$.next(params);
