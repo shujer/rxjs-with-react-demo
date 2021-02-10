@@ -70,6 +70,7 @@
 .messageList {
   flex: 1 1 100%;
   overflow-y: scroll;
+  padding-bottom: 40px;
 }
 .msgBox {
   display: flex;
@@ -85,11 +86,15 @@
   border-radius: 50%;
   overflow: hidden;
   font-size: 8px;
-  background-color: lightsalmon;
+  background-color: lightskyblue;
   color: #fff;
   text-align: center;
   line-height: 35px;
 }
+.reverse .avator {
+  background-color: lightsalmon;
+}
+
 .msg {
   flex: 1 1 100%;
   word-break: break-all;
