@@ -1,7 +1,7 @@
 import React from "react";
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import { Story, Meta } from "@storybook/react/types-6-0";
-import { ChatRooms as ColdRoom } from "./Cold/ChatRoom";
+import { ChatRooms as SubjectRoom } from "./Subject/ChatRoom";
 import { ChatRooms as BehaviorRoom } from "./BehaviorSubject/ChatRoom";
 import { ChatRooms as ReplayRoom } from "./ReplaySubject/ChatRoom";
 import { ChatRooms as RefCountRoom } from "./RefCount/ChatRoom";
@@ -11,8 +11,8 @@ export default {
 } as Meta;
 
 // example 1
-const ColdTemplate: Story<{}> = (args) => <ColdRoom {...args} />;
-export const Cold = ColdTemplate.bind({});
+const SubjectTemplate: Story<{}> = (args) => <SubjectRoom {...args} />;
+export const Subject = SubjectTemplate.bind({});
 
 // example 2
 const BehaviorTemplate: Story<{}> = (args) => <BehaviorRoom {...args} />;
