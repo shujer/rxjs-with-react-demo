@@ -23,7 +23,7 @@ import {
 } from "./ExhaustMap/Todo"
 
 export default {
-  title: "Example/Todo",
+  title: "Todo",
 } as Meta;
 
 // example 1

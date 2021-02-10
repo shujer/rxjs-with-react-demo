@@ -12,6 +12,9 @@ type Action = keyof typeof XYFactor;
 const step = 2;
 const MAX_LEN = 300;
 
+const isValid = (x: number, y: number) =>
+  x >= 0 && x <= MAX_LEN && y >= 0 && y <= MAX_LEN;
+
 export interface MotionBallProps {}
 
 export const MotionBall: React.FC<MotionBallProps> = () => {
@@ -24,15 +27,15 @@ export const MotionBall: React.FC<MotionBallProps> = () => {
     const factor = XYFactor[action];
     let x = factor[0] * step + position.current.x;
     let y = factor[1] * step + position.current.y;
-    if (x >= 0 && x <= MAX_LEN && y >= 0 && y <= MAX_LEN) {
+    if (isValid(x, y)) {
       ballRf.current!.style.left = `${x}px`;
       ballRf.current!.style.top = `${y}px`;
       position.current.x = x;
       position.current.y = y;
-      if (x - y !== 0 && x + y !== MAX_LEN) {
-        requestAnimationFrame(() => run(action));
-      }
+      requestAnimationFrame(() => run(action));
+      return true;
     }
+    return false;
   }, []);
 
   useEffect(() => {

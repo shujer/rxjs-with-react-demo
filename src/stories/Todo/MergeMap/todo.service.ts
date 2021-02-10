@@ -35,7 +35,7 @@ const requestList = (limit: number = 10): Promise<TodoItem[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(createTodoList(limit));
-    }, 1500);
+    }, 1000);
   });
 };
 
@@ -69,7 +69,7 @@ class TodoService {
 
   todoList$ = this.action$.pipe(
     filter((action) => !!action?.type),
-    mergeMap((action) => of(action).pipe(delay(2000))),
+    mergeMap((action) => of(action).pipe(delay(1500))),
     scan((list, action) => {
       switch (action.type) {
         case "toggle": {

@@ -16,7 +16,7 @@ import {
 } from "./SwitchMap/MotionBall";
 
 export default {
-  title: "Example/MotionBall",
+  title: "MotionBall",
 } as Meta;
 
 // example 1

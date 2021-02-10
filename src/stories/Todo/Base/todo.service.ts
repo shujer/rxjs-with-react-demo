@@ -1,5 +1,5 @@
 import { BehaviorSubject, combineLatest, from } from "rxjs";
-import { switchMap, tap } from "rxjs/operators";
+import { debounceTime, switchMap, tap } from "rxjs/operators";
 
 export interface TodoItem {
   id: number;
@@ -30,6 +30,7 @@ class TodoService {
   private loadingSource$ = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSource$.asObservable();
   public todoList$ = combineLatest(this.refresh$).pipe(
+    debounceTime(250),
     tap(() => {
       this.loadingSource$.next(true);
     }),

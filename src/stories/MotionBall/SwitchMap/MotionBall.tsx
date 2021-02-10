@@ -45,7 +45,7 @@ export const MotionBall: React.FC<MotionBallProps> = () => {
           ).pipe(
             filter((action) => !!action),
             map(run),
-            repeat(MAX_LEN),
+            repeat(),
             takeWhile((r) => r)
           )
         )
