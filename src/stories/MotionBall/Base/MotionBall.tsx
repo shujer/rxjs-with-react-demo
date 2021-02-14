@@ -19,7 +19,7 @@ export interface MotionBallProps {}
 
 export const MotionBall: React.FC<MotionBallProps> = () => {
   const ballRf = useRef<HTMLDivElement>(null);
-  const delRef = useRef<HTMLDListElement>(null);
+  const delRef = useRef<HTMLDivElement>(null);
   const position = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   const run = useCallback((action: Action) => {
